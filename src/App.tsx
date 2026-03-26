@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { 
-  Globe, 
-  TrendingUp, 
-  Gavel, 
-  Smartphone, 
-  Lightbulb, 
-  CheckCircle2, 
-  ArrowRight, 
+  Globe,
+  TrendingUp,
+  Gavel,
+  Smartphone,
+  Lightbulb,
+  CheckCircle2,
+  ArrowRight,
   ChevronDown,
   BarChart3,
   Zap,
   Users,
   Sun,
   Moon,
-  Lock
+  Lock,
+  Eye,
+  EyeOff,
+  MapPin,
+  Target,
+  Languages,
+  AlertTriangle,
+  Shield,
+  Fingerprint
 } from 'lucide-react';
 
 const Slide = ({ children, className = '' }: { children: React.ReactNode, className?: string }) => (
@@ -41,6 +49,7 @@ export default function App() {
   const [unlocked, setUnlocked] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,14 +91,23 @@ export default function App() {
             <h1 className="font-display text-3xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-br from-main to-muted">GoMarket</h1>
             <p className="text-muted text-sm mb-8">Enter the password to view this deck.</p>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => { setPassword(e.target.value); setError(false); }}
-                placeholder="Password"
-                className="w-full px-4 py-3 rounded-xl bg-page border border-border-main text-main placeholder:text-dim focus:outline-none focus:border-accent transition-colors text-center"
-                autoFocus
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => { setPassword(e.target.value); setError(false); }}
+                  placeholder="Password"
+                  className="w-full px-4 py-3 rounded-xl bg-page border border-border-main text-main placeholder:text-dim focus:outline-none focus:border-accent transition-colors text-center pr-12"
+                  autoFocus
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-main transition-colors"
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
               {error && <p className="text-red-400 text-sm">Incorrect password.</p>}
               <button
                 type="submit"
@@ -141,39 +159,7 @@ export default function App() {
         </motion.div>
       </Slide>
 
-      {/* Slide 2: The Premise */}
-      <Slide>
-        <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="order-2 md:order-1">
-            <FadeIn>
-              <h2 className="font-display text-4xl md:text-7xl font-bold mb-6 md:mb-8">Being right <br/><span className="text-emerald-400">should pay.</span></h2>
-            </FadeIn>
-            <FadeIn delay={0.2}>
-              <p className="text-lg md:text-xl text-muted mb-6 leading-relaxed">
-                Prediction markets reward knowledge — not leverage, not luck. If you understand geopolitics or crypto better than the market, you profit.
-              </p>
-            </FadeIn>
-            <FadeIn delay={0.3}>
-              <p className="text-lg md:text-xl text-muted mb-6 leading-relaxed">
-                Polymarket proved millions of people want this. <strong className="text-main">$24.5 billion in volume in 2025.</strong>
-              </p>
-            </FadeIn>
-            <FadeIn delay={0.4}>
-              <p className="text-xl md:text-2xl font-medium text-accent">
-                We're building what comes next.
-              </p>
-            </FadeIn>
-          </div>
-          <FadeIn delay={0.5} className="flex justify-center order-1 md:order-2 mb-8 md:mb-0">
-            <div className="w-48 h-48 md:w-64 md:h-64 rounded-full bg-card border border-border-main flex items-center justify-center relative shadow-[0_0_80px_rgba(16,185,129,0.15)]">
-               <Lightbulb size={64} className="text-accent md:w-20 md:h-20" />
-               <div className="absolute inset-0 bg-accent/20 blur-3xl rounded-full"></div>
-            </div>
-          </FadeIn>
-        </div>
-      </Slide>
-
-      {/* Slide 3: The Gap */}
+      {/* Slide 2: The Gap */}
       <Slide>
         <div className="max-w-5xl w-full">
           <FadeIn>
@@ -214,75 +200,242 @@ export default function App() {
         </div>
       </Slide>
 
-      {/* Slide 4: What GoMarket Is */}
+      {/* Slide 4: The Proof */}
       <Slide>
-        <div className="max-w-6xl w-full">
+        <div className="max-w-5xl w-full">
           <FadeIn>
-            <h2 className="font-display text-4xl md:text-7xl font-bold mb-12 md:mb-20 text-center">
-              Trade. Resolve. Access.
+            <h2 className="font-display text-3xl md:text-6xl font-bold mb-10 md:mb-16 leading-tight text-center">
+              The highest crypto-adoption regions on earth have <span className="text-accent">no prediction market.</span>
             </h2>
           </FadeIn>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12">
-            <FadeIn delay={0.2} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
-              <TrendingUp className="text-accent mb-4 md:mb-6 w-10 h-10 md:w-12 md:h-12" />
-              <h3 className="text-2xl md:text-3xl font-display font-bold mb-3 md:mb-4">Trade</h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mb-10 md:mb-14">
+            <FadeIn delay={0.15} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-2xl md:text-3xl">🇷🇺</span>
+                <h3 className="text-xl md:text-2xl font-display font-bold">Russia</h3>
+              </div>
               <p className="text-base md:text-lg text-muted leading-relaxed">
-                Real order books on crypto, geopolitics, and macro — markets worth having an opinion on.
+                <span className="text-accent font-bold">$376B</span> in crypto received in 2024–25 — #1 in all of Europe
               </p>
             </FadeIn>
-            
-            <FadeIn delay={0.4} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
-              <Gavel className="text-accent mb-4 md:mb-6 w-10 h-10 md:w-12 md:h-12" />
-              <h3 className="text-2xl md:text-3xl font-display font-bold mb-3 md:mb-4">Resolve</h3>
+
+            <FadeIn delay={0.25} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-2xl md:text-3xl">🇹🇷</span>
+                <h3 className="text-xl md:text-2xl font-display font-bold">Turkey</h3>
+              </div>
               <p className="text-base md:text-lg text-muted leading-relaxed">
-                An oracle system built for contested information. Designed for markets where the truth is disputed by state actors.
+                <span className="text-accent font-bold">1 in 4</span> people owns crypto, driven by 50%+ annual inflation
               </p>
             </FadeIn>
-            
-            <FadeIn delay={0.6} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
-              <Smartphone className="text-accent mb-4 md:mb-6 w-10 h-10 md:w-12 md:h-12" />
-              <h3 className="text-2xl md:text-3xl font-display font-bold mb-3 md:mb-4">Mobile App</h3>
+
+            <FadeIn delay={0.35} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-2xl md:text-3xl">🇳🇬</span>
+                <h3 className="text-xl md:text-2xl font-display font-bold">Nigeria</h3>
+              </div>
               <p className="text-base md:text-lg text-muted leading-relaxed">
-                Mobile Native. Embedded wallets. No MetaMask required. Feels like a consumer app.
+                <span className="text-accent font-bold">#2 globally</span> in crypto adoption. 73% ownership rate
+              </p>
+            </FadeIn>
+
+            <FadeIn delay={0.45} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-2xl md:text-3xl">🌏</span>
+                <h3 className="text-xl md:text-2xl font-display font-bold">Asia-Pacific</h3>
+              </div>
+              <p className="text-base md:text-lg text-muted leading-relaxed">
+                <span className="text-accent font-bold">37.6%</span> of the global crypto market, fastest growing region on earth
+              </p>
+            </FadeIn>
+          </div>
+
+          <FadeIn delay={0.6}>
+            <p className="text-xl md:text-3xl font-light text-muted border-l-4 border-accent pl-4 md:pl-6 py-2">
+              <span className="text-accent font-bold">97.5%</span> of prediction market volume is controlled by US platforms. <strong className="text-main">None of this market is theirs.</strong>
+            </p>
+          </FadeIn>
+        </div>
+      </Slide>
+
+      {/* Slide 5: The Plan */}
+      <Slide>
+        <div className="max-w-5xl w-full">
+          <FadeIn>
+            <h2 className="font-display text-3xl md:text-6xl font-bold mb-10 md:mb-16 leading-tight text-center">
+              Four regions. One playbook. <span className="text-accent">Starting now.</span>
+            </h2>
+          </FadeIn>
+
+          <div className="space-y-5 md:space-y-8">
+            <FadeIn delay={0.15} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl flex items-start gap-4 md:gap-6">
+              <span className="text-3xl md:text-4xl shrink-0 mt-1">🇷🇺</span>
+              <div>
+                <h3 className="text-xl md:text-2xl font-display font-bold mb-1">CIS — <span className="text-accent">Launch</span></h3>
+                <p className="text-base md:text-lg text-muted leading-relaxed">300M+ Russian speakers. We go live here first.</p>
+              </div>
+            </FadeIn>
+
+            <FadeIn delay={0.25} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl flex items-start gap-4 md:gap-6">
+              <span className="text-3xl md:text-4xl shrink-0 mt-1">🇹🇷</span>
+              <div>
+                <h3 className="text-xl md:text-2xl font-display font-bold mb-1">Turkey</h3>
+                <p className="text-base md:text-lg text-muted leading-relaxed">1 in 4 owns crypto. Inflation is 50%+. USDT is their savings account.</p>
+              </div>
+            </FadeIn>
+
+            <FadeIn delay={0.35} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl flex items-start gap-4 md:gap-6">
+              <span className="text-3xl md:text-4xl shrink-0 mt-1">🌏</span>
+              <div>
+                <h3 className="text-xl md:text-2xl font-display font-bold mb-1">Asia / SEA</h3>
+                <p className="text-base md:text-lg text-muted leading-relaxed">Vietnam, India, Philippines. 150M users. No dominant platform.</p>
+              </div>
+            </FadeIn>
+
+            <FadeIn delay={0.45} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl flex items-start gap-4 md:gap-6">
+              <span className="text-3xl md:text-4xl shrink-0 mt-1">🌍</span>
+              <div>
+                <h3 className="text-xl md:text-2xl font-display font-bold mb-1">Africa</h3>
+                <p className="text-base md:text-lg text-muted leading-relaxed">Nigeria is #2 in the world. Prediction markets just arrived there this week.</p>
+              </div>
+            </FadeIn>
+          </div>
+        </div>
+      </Slide>
+
+      {/* Slide 6: The Aha */}
+      <Slide>
+        <div className="max-w-5xl w-full">
+          <FadeIn>
+            <h2 className="font-display text-3xl md:text-6xl font-bold mb-10 md:mb-16 leading-tight text-center">
+              The competition didn't lose this market. <span className="text-accent">They never showed up.</span>
+            </h2>
+          </FadeIn>
+
+          <div className="space-y-8 md:space-y-12">
+            <FadeIn delay={0.2} className="flex flex-col md:flex-row gap-4 md:gap-6">
+              <div className="mt-1 shrink-0">
+                <Target className="text-accent w-8 h-8 md:w-7 md:h-7" />
+              </div>
+              <div>
+                <h3 className="text-xl md:text-2xl font-bold mb-2">No presence. No language support. No local context.</h3>
+                <p className="text-base md:text-xl text-muted">No understanding of how these users actually think, save, and trade.</p>
+              </div>
+            </FadeIn>
+
+            <FadeIn delay={0.4} className="flex flex-col md:flex-row gap-4 md:gap-6">
+              <div className="mt-1 shrink-0">
+                <Languages className="text-accent w-8 h-8 md:w-7 md:h-7" />
+              </div>
+              <div>
+                <h3 className="text-xl md:text-2xl font-bold mb-2">We speak their language — literally.</h3>
+                <p className="text-base md:text-xl text-muted">Markets built in Russian, Turkish, Arabic. Resolution criteria tied to their news, their events, their reality.</p>
+              </div>
+            </FadeIn>
+
+            <FadeIn delay={0.6}>
+              <p className="text-xl md:text-3xl font-light text-muted border-l-4 border-accent pl-4 md:pl-6 py-2">
+                This isn't a gap we're trying to close. It's a market we're building from scratch — <strong className="text-main">on our terms.</strong>
               </p>
             </FadeIn>
           </div>
         </div>
       </Slide>
 
-      {/* Slide 5: Why This Audience */}
+      {/* Slide 7: Bridge — The opportunity is obvious */}
       <Slide>
-        <div className="max-w-5xl w-full">
+        <div className="max-w-4xl w-full text-center">
           <FadeIn>
             <h2 className="font-display text-3xl md:text-6xl font-bold mb-10 md:mb-16 leading-tight">
-              The CIS crypto community is the <span className="text-accent">ideal</span> prediction market audience.
+              The opportunity is obvious. <span className="text-accent">The build is not.</span>
             </h2>
           </FadeIn>
-          
-          <div className="space-y-8 md:space-y-12">
-            <FadeIn delay={0.2} className="flex flex-col md:flex-row gap-4 md:gap-6">
-              <div className="mt-1 shrink-0"><Zap className="text-accent w-8 h-8 md:w-7 md:h-7" /></div>
-              <div>
-                <h3 className="text-xl md:text-2xl font-bold mb-2">Information edge is real</h3>
-                <p className="text-base md:text-xl text-muted">Geopolitical and macro knowledge asymmetry creates genuine trading opportunities.</p>
+
+          <FadeIn delay={0.2}>
+            <p className="text-lg md:text-2xl text-muted leading-relaxed mb-8 md:mb-12">
+              Prediction markets failed globally for a decade — not because of demand, but because of three hard engineering problems nobody solved for this audience.
+            </p>
+          </FadeIn>
+
+          <FadeIn delay={0.4}>
+            <div className="flex flex-col md:flex-row gap-4 md:gap-6 justify-center mb-10 md:mb-14">
+              <div className="bg-card/50 border border-border-main px-6 py-4 rounded-2xl flex items-center gap-3">
+                <span className="text-2xl">🧊</span>
+                <span className="text-base md:text-lg font-medium text-muted">Cold start liquidity</span>
               </div>
+              <div className="bg-card/50 border border-border-main px-6 py-4 rounded-2xl flex items-center gap-3">
+                <span className="text-2xl">⚖️</span>
+                <span className="text-base md:text-lg font-medium text-muted">Oracle disputes in adversarial environments</span>
+              </div>
+              <div className="bg-card/50 border border-border-main px-6 py-4 rounded-2xl flex items-center gap-3">
+                <span className="text-2xl">🚪</span>
+                <span className="text-base md:text-lg font-medium text-muted">Onboarding friction</span>
+              </div>
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={0.6}>
+            <p className="text-base md:text-xl text-muted leading-relaxed mb-10 md:mb-14">
+              We've spent months mapping exactly how each one breaks — and exactly how to solve it.
+            </p>
+          </FadeIn>
+
+          <FadeIn delay={0.8}>
+            <p className="text-xl md:text-3xl font-medium text-accent">
+              Here's the platform we're building.
+            </p>
+          </FadeIn>
+        </div>
+      </Slide>
+
+      {/* Slide 8: Built around the three problems */}
+      <Slide>
+        <div className="max-w-6xl w-full">
+          <FadeIn>
+            <h2 className="font-display text-3xl md:text-6xl font-bold mb-12 md:mb-20 text-center">
+              Built around the three problems that <span className="text-accent">kill platforms.</span>
+            </h2>
+          </FadeIn>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
+            <FadeIn delay={0.2} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
+              <div className="flex items-center gap-3 mb-4 md:mb-6">
+                <span className="text-2xl md:text-3xl">🧊</span>
+                <ArrowRight className="text-dim w-4 h-4" />
+                <TrendingUp className="text-accent w-8 h-8" />
+              </div>
+              <h3 className="text-lg md:text-xl font-display font-bold mb-1 text-muted">Cold Start →</h3>
+              <h3 className="text-xl md:text-2xl font-display font-bold mb-3 md:mb-4 text-accent">Protocol-Owned Liquidity</h3>
+              <p className="text-base md:text-lg text-muted leading-relaxed">
+                We seed every market ourselves at launch. LMSR AMM model, $1,500–3,000 per market. KOL-anchored positions create volume signal before organic trading arrives.
+              </p>
             </FadeIn>
-            
-            <FadeIn delay={0.4} className="flex flex-col md:flex-row gap-4 md:gap-6">
-              <div className="mt-1 shrink-0"><Users className="text-accent w-8 h-8 md:w-7 md:h-7" /></div>
-              <div>
-                <h3 className="text-xl md:text-2xl font-bold mb-2">The culture already exists</h3>
-                <p className="text-base md:text-xl text-muted">High-conviction macro bets happen daily on Telegram; we're formalizing it.</p>
+
+            <FadeIn delay={0.4} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
+              <div className="flex items-center gap-3 mb-4 md:mb-6">
+                <span className="text-2xl md:text-3xl">⚖️</span>
+                <ArrowRight className="text-dim w-4 h-4" />
+                <Shield className="text-accent w-8 h-8" />
               </div>
+              <h3 className="text-lg md:text-xl font-display font-bold mb-1 text-muted">Oracle Disputes →</h3>
+              <h3 className="text-xl md:text-2xl font-display font-bold mb-3 md:mb-4 text-accent">Layered Resolution</h3>
+              <p className="text-base md:text-lg text-muted leading-relaxed">
+                Structured resolution criteria at market creation. Credentialed proposers with financial bonds. Expert arbitration panel for contested outcomes. Built for environments where state actors control the information.
+              </p>
             </FadeIn>
-            
-            <FadeIn delay={0.6} className="flex flex-col md:flex-row gap-4 md:gap-6">
-              <div className="mt-1 shrink-0"><Globe className="text-accent w-8 h-8 md:w-7 md:h-7" /></div>
-              <div>
-                <h3 className="text-xl md:text-2xl font-bold mb-2">Distribution is relationships</h3>
-                <p className="text-base md:text-xl text-muted">1,500+ KOLs onboarded through Thriv3 — zero paid ads — powered by 20+ years of marketing expertise driving real, scalable growth.</p>
+
+            <FadeIn delay={0.6} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
+              <div className="flex items-center gap-3 mb-4 md:mb-6">
+                <span className="text-2xl md:text-3xl">🚪</span>
+                <ArrowRight className="text-dim w-4 h-4" />
+                <Fingerprint className="text-accent w-8 h-8" />
               </div>
+              <h3 className="text-lg md:text-xl font-display font-bold mb-1 text-muted">Onboarding Friction →</h3>
+              <h3 className="text-xl md:text-2xl font-display font-bold mb-3 md:mb-4 text-accent">Invisible Crypto</h3>
+              <p className="text-base md:text-lg text-muted leading-relaxed">
+                Embedded wallets. Session keys via ERC-4337. Users approve once, trade silently. No MetaMask popup on every order. Feels like a consumer app, settles on-chain.
+              </p>
             </FadeIn>
           </div>
         </div>
@@ -687,40 +840,49 @@ export default function App() {
               </FadeIn>
             ))}
           </div>
+
+          <FadeIn delay={0.8}>
+            <p className="text-base md:text-lg text-muted text-center mt-10 md:mt-14 bg-card/30 border border-border-main/50 px-6 py-4 rounded-2xl max-w-3xl mx-auto">
+              Core engineering team currently operating under contract. CTO hire will transition ownership of technical build and lead the permanent engineering org.
+            </p>
+          </FadeIn>
         </div>
       </Slide>
 
-      {/* Slide 13: The Opportunity */}
+      {/* The Ask — CTO */}
       <Slide>
-        <div className="max-w-6xl w-full">
+        <div className="max-w-4xl w-full">
           <FadeIn>
-            <h2 className="font-display text-3xl md:text-6xl font-bold mb-12 md:mb-20 text-center leading-tight">
-              Category proven. Geography wide open. <br className="hidden md:block" /><span className="text-emerald-400">Timing is now.</span>
+            <h2 className="font-display text-3xl md:text-6xl font-bold mb-10 md:mb-16 leading-tight text-center">
+              We're building this. We're looking for the person who <span className="text-accent">leads it.</span>
             </h2>
           </FadeIn>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-            <FadeIn delay={0.2} className="border-t-2 border-accent pt-5 md:pt-6">
-              <h3 className="text-2xl md:text-3xl font-display font-bold mb-3 md:mb-4 text-main">Proven model</h3>
-              <p className="text-lg md:text-xl text-muted leading-relaxed">
-                Polymarket: $24.5B volume, category validated, blueprint exists.
+
+          <div className="space-y-6 md:space-y-8 mb-10 md:mb-14">
+            <FadeIn delay={0.2}>
+              <p className="text-lg md:text-2xl text-muted leading-relaxed">
+                The technical foundation is scoped. The market architecture is designed. The liquidity strategy is in place.
               </p>
             </FadeIn>
-            
-            <FadeIn delay={0.4} className="border-t-2 border-accent pt-5 md:pt-6">
-              <h3 className="text-2xl md:text-3xl font-display font-bold mb-3 md:mb-4 text-main">Open market</h3>
-              <p className="text-lg md:text-xl text-muted leading-relaxed">
-                300M+ untapped users, no serious competitors for CIS region, distribution in place.
+
+            <FadeIn delay={0.4}>
+              <p className="text-lg md:text-2xl text-muted leading-relaxed">
+                What we need is a CTO who owns the full build — matching engine, oracle system, smart contracts, and the infrastructure that makes it run without downtime.
               </p>
             </FadeIn>
-            
-            <FadeIn delay={0.6} className="border-t-2 border-accent pt-5 md:pt-6">
-              <h3 className="text-2xl md:text-3xl font-display font-bold mb-3 md:mb-4 text-main">Right moment</h3>
-              <p className="text-lg md:text-xl text-muted leading-relaxed">
-                The window between "proven" and "crowded" in prediction markets is months, not years.
+
+            <FadeIn delay={0.6}>
+              <p className="text-lg md:text-2xl text-main leading-relaxed font-medium">
+                This is a founding-level role. You'd be the first technical voice in every product decision from day one.
               </p>
             </FadeIn>
           </div>
+
+          <FadeIn delay={0.8}>
+            <p className="text-xl md:text-3xl font-light text-muted border-l-4 border-accent pl-4 md:pl-6 py-2">
+              If this is the problem you want to spend the next three years on, <strong className="text-accent">let's talk.</strong>
+            </p>
+          </FadeIn>
         </div>
       </Slide>
 

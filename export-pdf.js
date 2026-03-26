@@ -20,6 +20,16 @@ const SLIDE_HEIGHT = 1080;
       timeout: 30000
     });
 
+    // Unlock the password gate
+    const passwordInput = await page.$('input[type="password"]');
+    if (passwordInput) {
+      console.log('Unlocking password gate...');
+      await passwordInput.type('Gomarket2026!');
+      await page.click('button[type="submit"]');
+      await page.waitForSelector('section', { timeout: 10000 });
+      await new Promise(r => setTimeout(r, 1000));
+    }
+
     // Disable all animations and make all content immediately visible
     await page.addStyleTag({
       content: `
