@@ -13,7 +13,8 @@ import {
   Zap,
   Users,
   Sun,
-  Moon
+  Moon,
+  Lock
 } from 'lucide-react';
 
 const Slide = ({ children, className = '' }: { children: React.ReactNode, className?: string }) => (
@@ -37,7 +38,20 @@ const FadeIn = ({ children, delay = 0, className = '' }: { children: React.React
 export default function App() {
   const [isDark, setIsDark] = useState(true);
   const [mounted, setMounted] = useState(false);
-  
+  const [unlocked, setUnlocked] = useState(false);
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === 'Gomarket2026!') {
+      setUnlocked(true);
+      setError(false);
+    } else {
+      setError(true);
+    }
+  };
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -49,8 +63,46 @@ export default function App() {
       document.documentElement.classList.remove('dark');
     }
   }, [isDark]);
-  
+
   if (!mounted) return null;
+
+  if (!unlocked) {
+    return (
+      <div className="min-h-screen w-full font-sans bg-page text-main flex items-center justify-center p-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-sm"
+        >
+          <div className="bg-card/50 border border-border-main rounded-3xl p-8 md:p-10 text-center">
+            <div className="w-14 h-14 rounded-2xl bg-accent/10 border border-accent/30 flex items-center justify-center mx-auto mb-6">
+              <Lock className="text-accent w-6 h-6" />
+            </div>
+            <h1 className="font-display text-3xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-br from-main to-muted">GoMarket</h1>
+            <p className="text-muted text-sm mb-8">Enter the password to view this deck.</p>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => { setPassword(e.target.value); setError(false); }}
+                placeholder="Password"
+                className="w-full px-4 py-3 rounded-xl bg-page border border-border-main text-main placeholder:text-dim focus:outline-none focus:border-accent transition-colors text-center"
+                autoFocus
+              />
+              {error && <p className="text-red-400 text-sm">Incorrect password.</p>}
+              <button
+                type="submit"
+                className="w-full py-3 rounded-xl bg-accent text-white font-medium hover:opacity-90 transition-opacity"
+              >
+                View Deck
+              </button>
+            </form>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen w-full font-sans selection:bg-emerald-500/30 overflow-x-hidden">
