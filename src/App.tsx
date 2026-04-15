@@ -887,11 +887,6 @@ export default function App() {
             ))}
           </div>
 
-          <FadeIn delay={0.8}>
-            <p className="text-base md:text-lg text-muted text-center mt-10 md:mt-14 bg-card/30 border border-border-main/50 px-6 py-4 rounded-2xl max-w-3xl mx-auto">
-              Core engineering team currently operating under contract. CTO hire will transition ownership of technical build and lead the permanent engineering org.
-            </p>
-          </FadeIn>
         </div>
       </Slide>
 
