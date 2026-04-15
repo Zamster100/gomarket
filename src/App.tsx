@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
-import { 
+import {
   Globe,
   TrendingUp,
   Gavel,
@@ -24,6 +24,16 @@ import {
   Shield,
   Fingerprint
 } from 'lucide-react';
+import {
+  FadeIn,
+  StaggerGroup,
+  StaggerItem,
+  AnimatedNumber,
+  DrawLine,
+  FloatIn,
+  GlowPulse,
+  RevealText,
+} from './animations';
 
 const Slide = ({ children, className = '' }: { children: React.ReactNode, className?: string }) => (
   <section className={`min-h-[100dvh] w-full flex flex-col items-center justify-center p-6 py-16 md:p-12 lg:p-24 relative ${className}`}>
@@ -31,17 +41,54 @@ const Slide = ({ children, className = '' }: { children: React.ReactNode, classN
   </section>
 );
 
-const FadeIn = ({ children, delay = 0, className = '' }: { children: React.ReactNode, delay?: number, className?: string }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: false, margin: "-50px" }}
-    transition={{ duration: 0.6, delay }}
-    className={className}
-  >
-    {children}
-  </motion.div>
-);
+const TIMELINE_STEPS = [
+  "Contracts", "Matching Engine", "Wallets + Oracle", "Frontend", "Testnet", "Audit", "Mainnet"
+];
+
+function RoadmapTimeline() {
+  const timelineRef = useRef<HTMLDivElement>(null);
+  return (
+    <div ref={timelineRef} className="mb-16 md:mb-24 relative px-4 md:px-0">
+      {/* Mobile vertical guide */}
+      <div className="absolute left-[23px] top-2 bottom-2 w-1 bg-gradient-to-b from-[#8954F2] to-[#2EE1B1] rounded-full md:hidden" />
+
+      {/* Desktop track (faint) */}
+      <div className="hidden md:block absolute top-1/2 left-0 w-full h-[3px] bg-border-main -translate-y-1/2 rounded-full" />
+
+      {/* Desktop scroll-driven line */}
+      <DrawLine
+        containerRef={timelineRef}
+        color="linear-gradient(to right, #8954F2, #2EE1B1)"
+        className="hidden md:block"
+      />
+
+      <div className="relative flex flex-col md:flex-row justify-between items-start md:items-center w-full gap-6 md:gap-0">
+        {TIMELINE_STEPS.map((step, i) => {
+          const isLast = i === TIMELINE_STEPS.length - 1;
+          const isDone = i < 5;
+          return (
+            <FadeIn key={step} delay={0.08 * i} className="flex flex-row md:flex-col items-center gap-4 md:gap-4 relative z-10">
+              <motion.div
+                className={`w-4 h-4 rounded-full shrink-0 ${isLast ? 'md:scale-150' : ''}`}
+                style={{
+                  backgroundColor: isDone ? '#8954F2' : isLast ? '#2EE1B1' : 'var(--text-dim)',
+                }}
+                animate={isLast
+                  ? { boxShadow: ['0 0 10px rgba(46,225,177,0.5)', '0 0 24px rgba(46,225,177,0.9)', '0 0 10px rgba(46,225,177,0.5)'] }
+                  : isDone
+                  ? { boxShadow: ['0 0 4px rgba(137,84,242,0.4)', '0 0 12px rgba(137,84,242,0.7)', '0 0 4px rgba(137,84,242,0.4)'] }
+                  : {}
+                }
+                transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: i * 0.15 }}
+              />
+              <span className={`text-base font-medium md:absolute md:top-8 md:whitespace-nowrap ${isLast ? 'text-main font-bold' : 'text-muted'}`}>{step}</span>
+            </FadeIn>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
   const [isDark, setIsDark] = useState(true);
@@ -85,10 +132,7 @@ export default function App() {
           className="w-full max-w-sm"
         >
           <div className="bg-card/50 border border-border-main rounded-3xl p-8 md:p-10 text-center">
-            <div className="w-14 h-14 rounded-2xl bg-accent/10 border border-accent/30 flex items-center justify-center mx-auto mb-6">
-              <Lock className="text-accent w-6 h-6" />
-            </div>
-            <h1 className="font-display text-3xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-br from-main to-muted">GoMarket</h1>
+            <img src="/logo.svg" alt="GoMarket" className="w-32 mx-auto mb-6 drop-shadow-[0_0_20px_rgba(137,84,242,0.4)]" />
             <p className="text-muted text-sm mb-8">Enter the password to view this deck.</p>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="relative">
@@ -111,7 +155,7 @@ export default function App() {
               {error && <p className="text-red-400 text-sm">Incorrect password.</p>}
               <button
                 type="submit"
-                className="w-full py-3 rounded-xl bg-accent text-white font-medium hover:opacity-90 transition-opacity"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-[#8954F2] to-[#2EE1B1] text-white font-medium hover:opacity-90 transition-opacity"
               >
                 View Deck
               </button>
@@ -123,7 +167,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen w-full font-sans selection:bg-emerald-500/30 overflow-x-hidden">
+    <div className="min-h-screen w-full font-sans selection:bg-[#8954F2]/30 overflow-x-hidden">
       <div className="bg-page text-main min-h-screen w-full transition-colors duration-300">
         
         {/* Theme Toggle Button */}
@@ -137,17 +181,27 @@ export default function App() {
       
       {/* Slide 1: Cover */}
       <Slide className="bg-page">
-        <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#8954F212_1px,transparent_1px),linear-gradient(to_bottom,#8954F212_1px,transparent_1px)] bg-[size:24px_24px]"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-page via-transparent to-transparent"></div>
-        
-        <FadeIn className="z-10 text-center max-w-4xl mt-auto mb-auto">
-          <h1 className="font-display text-6xl md:text-9xl font-bold tracking-tighter mb-6 text-transparent bg-clip-text bg-gradient-to-br from-main to-muted">
-            GoMarket
-          </h1>
-          <p className="text-lg md:text-3xl text-muted font-light leading-relaxed px-4">
-            The prediction markets platform built for the world's most <span className="text-accent font-medium">opinionated</span> audience.
-          </p>
-        </FadeIn>
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_center,rgba(137,84,242,0.4)_0,transparent_65%)]"></div>
+
+        <div className="z-10 text-center max-w-4xl mt-auto mb-auto flex flex-col items-center">
+          <FadeIn direction="none" delay={0.1}>
+            <GlowPulse color="rgba(137,84,242,0.4)">
+              <img
+                src="/logo.svg"
+                alt="GoMarket"
+                className="w-56 md:w-80 mb-8 md:mb-10"
+              />
+            </GlowPulse>
+          </FadeIn>
+          <FadeIn delay={0.5}>
+            <p className="text-lg md:text-3xl text-muted font-light leading-relaxed px-4">
+              The prediction markets platform built for the world's most{' '}
+              <span className="text-accent font-medium">opinionated</span> audience.
+            </p>
+          </FadeIn>
+        </div>
         
         <motion.div 
           className="absolute bottom-10 text-dim animate-bounce"
@@ -169,28 +223,36 @@ export default function App() {
             </h2>
           </FadeIn>
           
-          <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
-            <FadeIn delay={0.2} className="flex items-start md:items-center gap-4 md:gap-6">
+          <StaggerGroup className="space-y-6 md:space-y-8 mb-12 md:mb-16" delay={0.2}>
+            <StaggerItem className="flex items-start md:items-center gap-4 md:gap-6">
               <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-card flex items-center justify-center shrink-0 border border-border-main mt-1 md:mt-0">
                 <Globe className="text-accent w-6 h-6 md:w-8 md:h-8" />
               </div>
-              <p className="text-xl md:text-4xl font-medium leading-tight"><span className="text-accent block md:inline">300M+</span> Untapped Russian speaking users</p>
-            </FadeIn>
-            
-            <FadeIn delay={0.3} className="flex items-start md:items-center gap-4 md:gap-6">
+              <p className="text-xl md:text-4xl font-medium leading-tight">
+                <AnimatedNumber value={300} suffix="M+" className="text-accent block md:inline" />
+                {' '}Untapped Russian speaking users
+              </p>
+            </StaggerItem>
+
+            <StaggerItem className="flex items-start md:items-center gap-4 md:gap-6">
               <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-card flex items-center justify-center shrink-0 border border-border-main mt-1 md:mt-0">
                 <BarChart3 className="text-accent w-6 h-6 md:w-8 md:h-8" />
               </div>
-              <p className="text-xl md:text-4xl font-medium leading-tight"><span className="text-accent block md:inline">400%</span> growth in predictions markets from 2024-2025</p>
-            </FadeIn>
-            
-            <FadeIn delay={0.4} className="flex items-start md:items-center gap-4 md:gap-6">
+              <p className="text-xl md:text-4xl font-medium leading-tight">
+                <AnimatedNumber value={400} suffix="%" className="text-accent block md:inline" />
+                {' '}growth in predictions markets from 2024-2025
+              </p>
+            </StaggerItem>
+
+            <StaggerItem className="flex items-start md:items-center gap-4 md:gap-6">
               <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-card flex items-center justify-center shrink-0 border border-border-main mt-1 md:mt-0">
                 <Gavel className="text-accent w-6 h-6 md:w-8 md:h-8" />
               </div>
-              <p className="text-xl md:text-4xl font-medium leading-tight"><span className="text-accent block md:inline">Polymarket:</span> $1.4M CFTC fine, US blocked</p>
-            </FadeIn>
-          </div>
+              <p className="text-xl md:text-4xl font-medium leading-tight">
+                <span className="text-accent block md:inline">Polymarket:</span>{' '}$1.4M CFTC fine, US blocked
+              </p>
+            </StaggerItem>
+          </StaggerGroup>
           
           <FadeIn delay={0.6}>
             <p className="text-xl md:text-3xl font-light text-muted border-l-4 border-accent pl-4 md:pl-6 py-2">
@@ -210,45 +272,46 @@ export default function App() {
           </FadeIn>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mb-10 md:mb-14">
-            <FadeIn delay={0.15} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
+            <FloatIn delay={0.1} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-2xl md:text-3xl">🇷🇺</span>
                 <h3 className="text-xl md:text-2xl font-display font-bold">Russia</h3>
               </div>
               <p className="text-base md:text-lg text-muted leading-relaxed">
-                <span className="text-accent font-bold">$376B</span> in crypto received in 2024–25 — #1 in all of Europe
+                <AnimatedNumber value={376} prefix="$" suffix="B" className="text-accent font-bold" /> in crypto received in 2024–25 — #1 in all of Europe
               </p>
-            </FadeIn>
+            </FloatIn>
 
-            <FadeIn delay={0.25} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
+            <FloatIn delay={0.2} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-2xl md:text-3xl">🇹🇷</span>
                 <h3 className="text-xl md:text-2xl font-display font-bold">Turkey</h3>
               </div>
               <p className="text-base md:text-lg text-muted leading-relaxed">
-                <span className="text-accent font-bold">1 in 4</span> people owns crypto, driven by 50%+ annual inflation
+                <span className="text-accent font-bold">1 in 4</span> people owns crypto, driven by <AnimatedNumber value={50} suffix="%+" className="text-accent font-bold" /> annual inflation
               </p>
-            </FadeIn>
+            </FloatIn>
 
-            <FadeIn delay={0.35} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
+            <FloatIn delay={0.3} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
               <div className="flex items-center gap-3 mb-3">
-                <span className="text-2xl md:text-3xl">🇳🇬</span>
-                <h3 className="text-xl md:text-2xl font-display font-bold">Nigeria</h3>
+                <span className="text-2xl md:text-3xl">🇺🇦</span>
+                <h3 className="text-xl md:text-2xl font-display font-bold">Eastern Europe</h3>
               </div>
               <p className="text-base md:text-lg text-muted leading-relaxed">
-                <span className="text-accent font-bold">#2 globally</span> in crypto adoption. 73% ownership rate
+                Ukraine ranked <span className="text-accent font-bold">#1 globally</span> in per-capita crypto adoption. Eastern Europe received{' '}
+                <AnimatedNumber value={206} prefix="$" suffix="B" className="text-accent font-bold" /> in crypto in 2024–25 — growing faster than any Western market.
               </p>
-            </FadeIn>
+            </FloatIn>
 
-            <FadeIn delay={0.45} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
+            <FloatIn delay={0.4} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-2xl md:text-3xl">🌏</span>
                 <h3 className="text-xl md:text-2xl font-display font-bold">Asia-Pacific</h3>
               </div>
               <p className="text-base md:text-lg text-muted leading-relaxed">
-                <span className="text-accent font-bold">37.6%</span> of the global crypto market, fastest growing region on earth
+                <AnimatedNumber value={37.6} suffix="%" decimals={1} className="text-accent font-bold" /> of the global crypto market, fastest growing region on earth
               </p>
-            </FadeIn>
+            </FloatIn>
           </div>
 
           <FadeIn delay={0.6}>
@@ -294,10 +357,10 @@ export default function App() {
             </FadeIn>
 
             <FadeIn delay={0.45} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl flex items-start gap-4 md:gap-6">
-              <span className="text-3xl md:text-4xl shrink-0 mt-1">🌍</span>
+              <span className="text-3xl md:text-4xl shrink-0 mt-1">🇺🇦</span>
               <div>
-                <h3 className="text-xl md:text-2xl font-display font-bold mb-1">Africa</h3>
-                <p className="text-base md:text-lg text-muted leading-relaxed">Nigeria is #2 in the world. Prediction markets just arrived there this week.</p>
+                <h3 className="text-xl md:text-2xl font-display font-bold mb-1">Eastern Europe</h3>
+                <p className="text-base md:text-lg text-muted leading-relaxed">Ukraine is #1 per-capita globally. $206B in crypto across Eastern Europe in 2024–25. Zero prediction market infrastructure exists for this region.</p>
               </div>
             </FadeIn>
           </div>
@@ -347,8 +410,9 @@ export default function App() {
       <Slide>
         <div className="max-w-4xl w-full text-center">
           <FadeIn>
-            <h2 className="font-display text-3xl md:text-6xl font-bold mb-10 md:mb-16 leading-tight">
-              The opportunity is obvious. <span className="text-accent">The build is not.</span>
+            <h2 className="font-display text-3xl md:text-6xl font-bold mb-10 md:mb-16 leading-tight overflow-hidden">
+              <RevealText>The opportunity is obvious.</RevealText>
+              <RevealText delay={0.2} className="text-accent">The build is not.</RevealText>
             </h2>
           </FadeIn>
 
@@ -399,7 +463,7 @@ export default function App() {
           </FadeIn>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
-            <FadeIn delay={0.2} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
+            <FloatIn delay={0.15} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
               <div className="flex items-center gap-3 mb-4 md:mb-6">
                 <span className="text-2xl md:text-3xl">🧊</span>
                 <ArrowRight className="text-dim w-4 h-4" />
@@ -410,9 +474,9 @@ export default function App() {
               <p className="text-base md:text-lg text-muted leading-relaxed">
                 We seed every market ourselves at launch. LMSR AMM model, $1,500–3,000 per market. KOL-anchored positions create volume signal before organic trading arrives.
               </p>
-            </FadeIn>
+            </FloatIn>
 
-            <FadeIn delay={0.4} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
+            <FloatIn delay={0.3} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
               <div className="flex items-center gap-3 mb-4 md:mb-6">
                 <span className="text-2xl md:text-3xl">⚖️</span>
                 <ArrowRight className="text-dim w-4 h-4" />
@@ -423,9 +487,9 @@ export default function App() {
               <p className="text-base md:text-lg text-muted leading-relaxed">
                 Structured resolution criteria at market creation. Credentialed proposers with financial bonds. Expert arbitration panel for contested outcomes. Built for environments where state actors control the information.
               </p>
-            </FadeIn>
+            </FloatIn>
 
-            <FadeIn delay={0.6} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
+            <FloatIn delay={0.45} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
               <div className="flex items-center gap-3 mb-4 md:mb-6">
                 <span className="text-2xl md:text-3xl">🚪</span>
                 <ArrowRight className="text-dim w-4 h-4" />
@@ -436,7 +500,7 @@ export default function App() {
               <p className="text-base md:text-lg text-muted leading-relaxed">
                 Embedded wallets. Session keys via ERC-4337. Users approve once, trade silently. No MetaMask popup on every order. Feels like a consumer app, settles on-chain.
               </p>
-            </FadeIn>
+            </FloatIn>
           </div>
         </div>
       </Slide>
@@ -593,29 +657,11 @@ export default function App() {
         <div className="max-w-6xl w-full">
           <FadeIn>
             <h2 className="font-display text-3xl md:text-6xl font-bold mb-12 md:mb-20 text-center">
-              Testnet in 16 weeks. <br className="md:hidden" /><span className="text-emerald-400">Mainnet in 6 months.</span>
+              Testnet in 16 weeks. <br className="md:hidden" /><span className="text-accent-secondary">Mainnet in 6 months.</span>
             </h2>
           </FadeIn>
-          
-          <FadeIn delay={0.2} className="mb-16 md:mb-24 relative px-4 md:px-0">
-            {/* Mobile Vertical Line */}
-            <div className="absolute left-[23px] top-2 bottom-2 w-1 bg-gradient-to-b from-accent/80 to-accent rounded-full md:hidden"></div>
-            
-            {/* Desktop Horizontal Line */}
-            <div className="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-muted -translate-y-1/2 rounded-full"></div>
-            <div className="hidden md:block absolute top-1/2 left-0 w-3/4 h-1 bg-gradient-to-r from-accent/50 to-accent -translate-y-1/2 rounded-full"></div>
-            
-            <div className="relative flex flex-col md:flex-row justify-between items-start md:items-center w-full gap-6 md:gap-0">
-              {[
-                "Contracts", "Matching Engine", "Wallets + Oracle", "Frontend", "Testnet", "Audit", "Mainnet"
-              ].map((step, i) => (
-                <div key={i} className="flex flex-row md:flex-col items-center gap-4 md:gap-4 relative z-10">
-                  <div className={`w-4 h-4 rounded-full shrink-0 ${i === 6 ? 'bg-main shadow-[0_0_15px_rgba(var(--accent-rgb),0.8)] md:scale-150' : i < 5 ? 'bg-accent' : 'bg-dim'}`}></div>
-                  <span className={`text-base md:text-base font-medium md:absolute md:top-8 md:whitespace-nowrap ${i === 6 ? 'text-main font-bold' : 'text-muted'}`}>{step}</span>
-                </div>
-              ))}
-            </div>
-          </FadeIn>
+
+          <RoadmapTimeline />
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mt-8 md:mt-12">
             <FadeIn delay={0.4} className="text-center bg-card/30 p-6 rounded-2xl border border-border-main/50">
@@ -826,7 +872,7 @@ export default function App() {
                 imgPosition: "object-top"
               }
             ].map((member, i) => (
-              <FadeIn key={i} delay={0.1 * i} className="flex flex-col items-center text-center bg-card/20 p-6 rounded-3xl border border-border-main/50">
+              <FloatIn key={i} delay={0.08 * i} className="flex flex-col items-center text-center bg-card/20 p-6 rounded-3xl border border-border-main/50">
                 <div className="w-32 h-32 md:w-48 md:h-48 rounded-2xl bg-muted mb-6 border border-border-main overflow-hidden relative">
                   <div className="absolute inset-0 bg-gradient-to-br from-muted to-card"></div>
                   <img src={member.img} alt={member.name} className={`absolute inset-0 w-full h-full object-cover z-10 ${member.imgPosition}`} />
@@ -837,7 +883,7 @@ export default function App() {
                 <h3 className="text-xl md:text-2xl font-bold text-main mb-1 md:mb-2">{member.name}</h3>
                 <p className="text-accent font-medium mb-3 md:mb-4 text-sm md:text-base">{member.role}</p>
                 <p className="text-muted text-sm md:text-base">{member.desc}</p>
-              </FadeIn>
+              </FloatIn>
             ))}
           </div>
 
@@ -849,52 +895,19 @@ export default function App() {
         </div>
       </Slide>
 
-      {/* The Ask — CTO */}
-      <Slide>
-        <div className="max-w-4xl w-full">
-          <FadeIn>
-            <h2 className="font-display text-3xl md:text-6xl font-bold mb-10 md:mb-16 leading-tight text-center">
-              We're building this. We're looking for the person who <span className="text-accent">leads it.</span>
-            </h2>
-          </FadeIn>
-
-          <div className="space-y-6 md:space-y-8 mb-10 md:mb-14">
-            <FadeIn delay={0.2}>
-              <p className="text-lg md:text-2xl text-muted leading-relaxed">
-                The technical foundation is scoped. The market architecture is designed. The liquidity strategy is in place.
-              </p>
-            </FadeIn>
-
-            <FadeIn delay={0.4}>
-              <p className="text-lg md:text-2xl text-muted leading-relaxed">
-                What we need is a CTO who owns the full build — matching engine, oracle system, smart contracts, and the infrastructure that makes it run without downtime.
-              </p>
-            </FadeIn>
-
-            <FadeIn delay={0.6}>
-              <p className="text-lg md:text-2xl text-main leading-relaxed font-medium">
-                This is a founding-level role. You'd be the first technical voice in every product decision from day one.
-              </p>
-            </FadeIn>
-          </div>
-
-          <FadeIn delay={0.8}>
-            <p className="text-xl md:text-3xl font-light text-muted border-l-4 border-accent pl-4 md:pl-6 py-2">
-              If this is the problem you want to spend the next three years on, <strong className="text-accent">let's talk.</strong>
-            </p>
-          </FadeIn>
-        </div>
-      </Slide>
-
       {/* Slide 14: Close */}
       <Slide className="bg-page">
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.8)_0,transparent_50%)]"></div>
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,rgba(137,84,242,0.8)_0,transparent_50%)]"></div>
         
         <div className="max-w-4xl w-full text-center relative z-10">
-          <FadeIn>
-            <h1 className="font-display text-6xl md:text-9xl font-bold tracking-tighter mb-6 md:mb-8 text-main">
-              GoMarket
-            </h1>
+          <FadeIn className="flex justify-center">
+            <GlowPulse color="rgba(137,84,242,0.45)">
+              <img
+                src="/logo.svg"
+                alt="GoMarket"
+                className="w-48 md:w-72 mb-6 md:mb-8"
+              />
+            </GlowPulse>
           </FadeIn>
           
           <FadeIn delay={0.2}>
