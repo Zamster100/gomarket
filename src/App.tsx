@@ -22,7 +22,14 @@ import {
   Languages,
   AlertTriangle,
   Shield,
-  Fingerprint
+  Fingerprint,
+  Snowflake,
+  Scale,
+  DoorOpen,
+  Landmark,
+  ShieldCheck,
+  Fuel,
+  Droplets
 } from 'lucide-react';
 import {
   FadeIn,
@@ -34,6 +41,7 @@ import {
   GlowPulse,
   RevealText,
 } from './animations';
+import coverVideo from '../Assets/hf_20260418_144819_b34e5911-85e6-479c-b036-c6e84bd0004d.mp4';
 
 const Slide = ({ children, className = '' }: { children: React.ReactNode, className?: string }) => (
   <section className={`min-h-[100dvh] w-full flex flex-col items-center justify-center p-6 py-16 md:p-12 lg:p-24 relative ${className}`}>
@@ -89,6 +97,78 @@ function RoadmapTimeline() {
     </div>
   );
 }
+
+const MarketCard = ({ market, i }: { market: string, i: number }) => {
+  const [selected, setSelected] = useState<'yes' | 'no' | null>(null);
+  
+  return (
+    <FadeIn 
+      key={i} 
+      delay={0.05 * i} 
+      className={`border rounded-2xl p-5 md:p-6 flex flex-col justify-between h-auto min-h-[160px] md:h-48 transition-all duration-500 ${
+        selected === 'yes' ? 'bg-accent/10 border-accent/40 shadow-[0_0_20px_rgba(137,84,242,0.1)]' : 
+        selected === 'no' ? 'bg-zinc-500/10 border-zinc-500/40 shadow-[0_0_20px_rgba(113,113,122,0.1)]' : 
+        'bg-card border-border-main hover:border-accent/50'
+      }`}
+    >
+      <h4 className="text-lg md:text-xl font-medium leading-snug">{market}</h4>
+      <div className="flex gap-2 mt-4 pt-2 border-t border-border-main/50">
+        <button 
+          onClick={() => setSelected('yes')}
+          className={`text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-lg flex-1 text-center transition-all cursor-pointer ${
+            selected === 'yes' ? 'bg-accent text-white shadow-lg shadow-accent/20' : 'bg-accent/10 text-accent hover:bg-accent/20'
+          }`}
+        >
+          YES
+        </button>
+        <button 
+          onClick={() => setSelected('no')}
+          className={`text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-lg flex-1 text-center transition-all cursor-pointer ${
+            selected === 'no' ? 'bg-zinc-500 text-white shadow-lg shadow-zinc-500/20' : 'bg-zinc-500/10 text-zinc-500 hover:bg-zinc-500/20'
+          }`}
+        >
+          NO
+        </button>
+      </div>
+    </FadeIn>
+  );
+};
+
+const TeamMemberCard = ({ member, i }: { member: any, i: number }) => {
+  return (
+    <FloatIn delay={0.08 * i} className="perspective-1000 group min-h-[420px]">
+      <div 
+        className="relative w-full h-full preserve-3d transition-all duration-700 ease-in-out group-hover:[transform:rotateY(180deg)]"
+      >
+        {/* Front Side */}
+        <div className="flex flex-col items-center text-center bg-card/20 p-6 rounded-3xl border border-border-main/50 h-full backface-hidden shadow-sm">
+          <div className="w-32 h-32 md:w-48 md:h-48 rounded-2xl bg-muted mb-6 border border-border-main overflow-hidden relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-muted to-card"></div>
+            <img src={member.img} alt={member.name} className={`absolute inset-0 w-full h-full object-cover z-10 ${member.imgPosition}`} />
+            <div className="absolute inset-0 flex items-center justify-center text-dim z-0">
+              <Users size={40} className="md:w-12 md:h-12" />
+            </div>
+          </div>
+          <h3 className="text-xl md:text-2xl font-bold text-main mb-1 md:mb-2">{member.name}</h3>
+          <p className="text-accent font-medium mb-3 md:mb-4 text-sm md:text-base">{member.role}</p>
+          <p className="text-muted text-sm md:text-base leading-relaxed">{member.desc}</p>
+        </div>
+
+        {/* Back Side */}
+        <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-card/80 backdrop-blur-md rounded-3xl border-2 border-accent/20 rotate-y-180 backface-hidden p-8 shadow-2xl">
+           <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,rgba(137,84,242,0.4)_0,transparent_70%)]"></div>
+           <GlowPulse color="rgba(137,84,242,0.25)">
+             <img src="/logo.svg" alt="GoMarket" className="w-24 md:w-32 drop-shadow-[0_0_15px_rgba(137,84,242,0.3)]" />
+           </GlowPulse>
+           <div className="mt-8 space-y-1 text-center">
+             <p className="text-accent font-display font-bold tracking-[0.2em] text-[10px] md:text-xs uppercase">GoMarket</p>
+             <p className="text-dim font-medium text-[9px] md:text-[10px] uppercase">{member.role}</p>
+           </div>
+        </div>
+      </div>
+    </FloatIn>
+  );
+};
 
 export default function App() {
   const [isDark, setIsDark] = useState(true);
@@ -180,7 +260,15 @@ export default function App() {
         </button>
       
       {/* Slide 1: Cover */}
-      <Slide className="bg-page">
+      <Slide className="bg-page overflow-hidden">
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          src={coverVideo} 
+          className="absolute inset-0 w-full h-full object-cover opacity-30 pointer-events-none" 
+        />
         <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#8954F212_1px,transparent_1px),linear-gradient(to_bottom,#8954F212_1px,transparent_1px)] bg-[size:24px_24px]"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-page via-transparent to-transparent"></div>
         <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_center,rgba(137,84,242,0.4)_0,transparent_65%)]"></div>
@@ -274,7 +362,7 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mb-10 md:mb-14">
             <FloatIn delay={0.1} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
               <div className="flex items-center gap-3 mb-3">
-                <span className="text-2xl md:text-3xl">🇷🇺</span>
+                <Globe className="text-[#8954F2] w-6 h-6 md:w-8 md:h-8 shrink-0" />
                 <h3 className="text-xl md:text-2xl font-display font-bold">Russia</h3>
               </div>
               <p className="text-base md:text-lg text-muted leading-relaxed">
@@ -284,7 +372,7 @@ export default function App() {
 
             <FloatIn delay={0.2} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
               <div className="flex items-center gap-3 mb-3">
-                <span className="text-2xl md:text-3xl">🇹🇷</span>
+                <Globe className="text-[#8954F2] w-6 h-6 md:w-8 md:h-8 shrink-0" />
                 <h3 className="text-xl md:text-2xl font-display font-bold">Turkey</h3>
               </div>
               <p className="text-base md:text-lg text-muted leading-relaxed">
@@ -294,7 +382,7 @@ export default function App() {
 
             <FloatIn delay={0.3} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
               <div className="flex items-center gap-3 mb-3">
-                <span className="text-2xl md:text-3xl">🇺🇦</span>
+                <Globe className="text-[#8954F2] w-6 h-6 md:w-8 md:h-8 shrink-0" />
                 <h3 className="text-xl md:text-2xl font-display font-bold">Eastern Europe</h3>
               </div>
               <p className="text-base md:text-lg text-muted leading-relaxed">
@@ -305,7 +393,7 @@ export default function App() {
 
             <FloatIn delay={0.4} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
               <div className="flex items-center gap-3 mb-3">
-                <span className="text-2xl md:text-3xl">🌏</span>
+                <Globe className="text-[#8954F2] w-6 h-6 md:w-8 md:h-8 shrink-0" />
                 <h3 className="text-xl md:text-2xl font-display font-bold">Asia-Pacific</h3>
               </div>
               <p className="text-base md:text-lg text-muted leading-relaxed">
@@ -333,7 +421,7 @@ export default function App() {
 
           <div className="space-y-5 md:space-y-8">
             <FadeIn delay={0.15} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl flex items-start gap-4 md:gap-6">
-              <span className="text-3xl md:text-4xl shrink-0 mt-1">🇷🇺</span>
+              <Globe className="text-[#8954F2] w-8 h-8 md:w-10 md:h-10 shrink-0 mt-1" />
               <div>
                 <h3 className="text-xl md:text-2xl font-display font-bold mb-1">CIS — <span className="text-accent">Launch</span></h3>
                 <p className="text-base md:text-lg text-muted leading-relaxed">300M+ Russian speakers. We go live here first.</p>
@@ -341,7 +429,7 @@ export default function App() {
             </FadeIn>
 
             <FadeIn delay={0.25} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl flex items-start gap-4 md:gap-6">
-              <span className="text-3xl md:text-4xl shrink-0 mt-1">🇹🇷</span>
+              <Globe className="text-[#8954F2] w-8 h-8 md:w-10 md:h-10 shrink-0 mt-1" />
               <div>
                 <h3 className="text-xl md:text-2xl font-display font-bold mb-1">Turkey</h3>
                 <p className="text-base md:text-lg text-muted leading-relaxed">1 in 4 owns crypto. Inflation is 50%+. USDT is their savings account.</p>
@@ -349,7 +437,7 @@ export default function App() {
             </FadeIn>
 
             <FadeIn delay={0.35} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl flex items-start gap-4 md:gap-6">
-              <span className="text-3xl md:text-4xl shrink-0 mt-1">🌏</span>
+              <Globe className="text-[#8954F2] w-8 h-8 md:w-10 md:h-10 shrink-0 mt-1" />
               <div>
                 <h3 className="text-xl md:text-2xl font-display font-bold mb-1">Asia / SEA</h3>
                 <p className="text-base md:text-lg text-muted leading-relaxed">Vietnam, India, Philippines. 150M users. No dominant platform.</p>
@@ -357,7 +445,7 @@ export default function App() {
             </FadeIn>
 
             <FadeIn delay={0.45} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl flex items-start gap-4 md:gap-6">
-              <span className="text-3xl md:text-4xl shrink-0 mt-1">🇺🇦</span>
+              <Globe className="text-[#8954F2] w-8 h-8 md:w-10 md:h-10 shrink-0 mt-1" />
               <div>
                 <h3 className="text-xl md:text-2xl font-display font-bold mb-1">Eastern Europe</h3>
                 <p className="text-base md:text-lg text-muted leading-relaxed">Ukraine is #1 per-capita globally. $206B in crypto across Eastern Europe in 2024–25. Zero prediction market infrastructure exists for this region.</p>
@@ -424,16 +512,16 @@ export default function App() {
 
           <FadeIn delay={0.4}>
             <div className="flex flex-col md:flex-row gap-4 md:gap-6 justify-center mb-10 md:mb-14">
-              <div className="bg-card/50 border border-border-main px-6 py-4 rounded-2xl flex items-center gap-3">
-                <span className="text-2xl">🧊</span>
+              <div className="bg-card/50 border border-border-main px-6 py-4 rounded-2xl flex items-center gap-3 hover-shiver hover:cursor-default">
+                <Snowflake className="text-[#2EE1B1] w-6 h-6 shrink-0" />
                 <span className="text-base md:text-lg font-medium text-muted">Cold start liquidity</span>
               </div>
-              <div className="bg-card/50 border border-border-main px-6 py-4 rounded-2xl flex items-center gap-3">
-                <span className="text-2xl">⚖️</span>
+              <div className="bg-card/50 border border-border-main px-6 py-4 rounded-2xl flex items-center gap-3 hover-pivot-tipping hover:cursor-default">
+                <Scale className="text-[#2EE1B1] w-6 h-6 shrink-0" />
                 <span className="text-base md:text-lg font-medium text-muted">Oracle disputes in adversarial environments</span>
               </div>
-              <div className="bg-card/50 border border-border-main px-6 py-4 rounded-2xl flex items-center gap-3">
-                <span className="text-2xl">🚪</span>
+              <div className="bg-card/50 border border-border-main px-6 py-4 rounded-2xl flex items-center gap-3 hover-shake hover:cursor-default">
+                <DoorOpen className="text-[#2EE1B1] w-6 h-6 shrink-0" />
                 <span className="text-base md:text-lg font-medium text-muted">Onboarding friction</span>
               </div>
             </div>
@@ -465,7 +553,7 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
             <FloatIn delay={0.15} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
               <div className="flex items-center gap-3 mb-4 md:mb-6">
-                <span className="text-2xl md:text-3xl">🧊</span>
+                <Snowflake className="text-[#2EE1B1] w-8 h-8 shrink-0" />
                 <ArrowRight className="text-dim w-4 h-4" />
                 <TrendingUp className="text-accent w-8 h-8" />
               </div>
@@ -478,7 +566,7 @@ export default function App() {
 
             <FloatIn delay={0.3} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
               <div className="flex items-center gap-3 mb-4 md:mb-6">
-                <span className="text-2xl md:text-3xl">⚖️</span>
+                <Scale className="text-[#2EE1B1] w-8 h-8 shrink-0" />
                 <ArrowRight className="text-dim w-4 h-4" />
                 <Shield className="text-accent w-8 h-8" />
               </div>
@@ -491,7 +579,7 @@ export default function App() {
 
             <FloatIn delay={0.45} className="bg-card/50 border border-border-main p-6 md:p-8 rounded-3xl">
               <div className="flex items-center gap-3 mb-4 md:mb-6">
-                <span className="text-2xl md:text-3xl">🚪</span>
+                <DoorOpen className="text-[#2EE1B1] w-8 h-8 shrink-0" />
                 <ArrowRight className="text-dim w-4 h-4" />
                 <Fingerprint className="text-accent w-8 h-8" />
               </div>
@@ -523,13 +611,7 @@ export default function App() {
               "Will the Weather in Moscow reach 28°F tomorrow?",
               "Will Telegram launch a native DEX in 2025?"
             ].map((market, i) => (
-              <FadeIn key={i} delay={0.05 * i} className="bg-card border border-border-main rounded-2xl p-5 md:p-6 flex flex-col justify-between h-auto min-h-[160px] md:h-48 hover:border-accent/50 transition-colors">
-                <h4 className="text-lg md:text-xl font-medium leading-snug">{market}</h4>
-                <div className="flex gap-2 mt-4 pt-2 border-t border-border-main/50">
-                  <div className="bg-accent/10 text-accent text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-lg flex-1 text-center">YES</div>
-                  <div className="bg-red-500/10 text-red-500 text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-lg flex-1 text-center">NO</div>
-                </div>
-              </FadeIn>
+              <MarketCard key={i} market={market} i={i} />
             ))}
           </div>
           
@@ -541,48 +623,7 @@ export default function App() {
         </div>
       </Slide>
 
-      {/* Slide 7: The Hard Problems */}
-      <Slide>
-        <div className="max-w-6xl w-full">
-          <FadeIn>
-            <h2 className="font-display text-3xl md:text-5xl font-bold mb-10 md:mb-16 text-center">
-              Three problems that kill prediction market platforms.
-            </h2>
-          </FadeIn>
-          
-          <div className="space-y-4 md:space-y-6">
-            <FadeIn delay={0.2} className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 bg-card/30 border border-border-main/50 p-6 md:p-8 rounded-3xl items-center">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-full bg-muted flex items-center justify-center text-xl md:text-2xl">🧊</div>
-                <h3 className="text-xl md:text-2xl font-medium text-muted">Cold start — no liquidity, no traders</h3>
-              </div>
-              <div className="text-lg md:text-xl font-medium text-accent md:text-right pl-14 md:pl-0">
-                Protocol-owned seed liquidity + KOL-anchored positions on launch
-              </div>
-            </FadeIn>
-            
-            <FadeIn delay={0.4} className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 bg-card/30 border border-border-main/50 p-6 md:p-8 rounded-3xl items-center">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-full bg-muted flex items-center justify-center text-xl md:text-2xl">⚖️</div>
-                <h3 className="text-xl md:text-2xl font-medium text-muted">Oracle disputes — who decides what's true?</h3>
-              </div>
-              <div className="text-lg md:text-xl font-medium text-accent md:text-right pl-14 md:pl-0">
-                Tiered sources, credentialed proposers, expert arbitration panel
-              </div>
-            </FadeIn>
-            
-            <FadeIn delay={0.6} className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 bg-card/30 border border-border-main/50 p-6 md:p-8 rounded-3xl items-center">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-full bg-muted flex items-center justify-center text-xl md:text-2xl">🚪</div>
-                <h3 className="text-xl md:text-2xl font-medium text-muted">Onboarding drop-off — wallets kill conversion</h3>
-              </div>
-              <div className="text-lg md:text-xl font-medium text-accent md:text-right pl-14 md:pl-0">
-                Embedded wallets, session keys, gas abstraction — approve once, trade silently
-              </div>
-            </FadeIn>
-          </div>
-        </div>
-      </Slide>
+
 
       {/* Slide 8: Technical Architecture */}
       <Slide>
@@ -664,20 +705,20 @@ export default function App() {
           <RoadmapTimeline />
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mt-8 md:mt-12">
-            <FadeIn delay={0.4} className="text-center bg-card/30 p-6 rounded-2xl border border-border-main/50">
-              <div className="text-3xl md:text-4xl mb-3 md:mb-4">🏦</div>
+            <FadeIn delay={0.4} className="text-center bg-card/30 p-6 rounded-2xl border border-border-main/50 flex flex-col items-center">
+              <Landmark className="text-[#8954F2] w-10 h-10 md:w-12 md:h-12 mb-3 md:mb-4" />
               <p className="text-lg md:text-xl font-medium text-main">$100K–$250K seed liquidity committed</p>
             </FadeIn>
-            <FadeIn delay={0.5} className="text-center bg-card/30 p-6 rounded-2xl border border-border-main/50">
-              <div className="text-3xl md:text-4xl mb-3 md:mb-4">🔐</div>
+            <FadeIn delay={0.5} className="text-center bg-card/30 p-6 rounded-2xl border border-border-main/50 flex flex-col items-center">
+              <ShieldCheck className="text-[#8954F2] w-10 h-10 md:w-12 md:h-12 mb-3 md:mb-4" />
               <p className="text-lg md:text-xl font-medium text-main">$100K–$200K audit budget ring-fenced</p>
             </FadeIn>
-            <FadeIn delay={0.6} className="text-center bg-card/30 p-6 rounded-2xl border border-border-main/50">
-              <div className="text-3xl md:text-4xl mb-3 md:mb-4">⛽</div>
+            <FadeIn delay={0.6} className="text-center bg-card/30 p-6 rounded-2xl border border-border-main/50 flex flex-col items-center">
+              <Fuel className="text-[#8954F2] w-10 h-10 md:w-12 md:h-12 mb-3 md:mb-4" />
               <p className="text-lg md:text-xl font-medium text-main">Gas float for sponsored transactions</p>
             </FadeIn>
-            <FadeIn delay={0.7} className="text-center bg-card/30 p-6 rounded-2xl border border-border-main/50">
-              <div className="text-3xl md:text-4xl mb-3 md:mb-4">💧</div>
+            <FadeIn delay={0.7} className="text-center bg-card/30 p-6 rounded-2xl border border-border-main/50 flex flex-col items-center">
+              <Droplets className="text-[#8954F2] w-10 h-10 md:w-12 md:h-12 mb-3 md:mb-4" />
               <p className="text-lg md:text-xl font-medium text-main">7+ Liquidity and spread providers</p>
             </FadeIn>
           </div>
@@ -872,18 +913,7 @@ export default function App() {
                 imgPosition: "object-top"
               }
             ].map((member, i) => (
-              <FloatIn key={i} delay={0.08 * i} className="flex flex-col items-center text-center bg-card/20 p-6 rounded-3xl border border-border-main/50">
-                <div className="w-32 h-32 md:w-48 md:h-48 rounded-2xl bg-muted mb-6 border border-border-main overflow-hidden relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-muted to-card"></div>
-                  <img src={member.img} alt={member.name} className={`absolute inset-0 w-full h-full object-cover z-10 ${member.imgPosition}`} />
-                  <div className="absolute inset-0 flex items-center justify-center text-dim z-0">
-                    <Users size={40} className="md:w-12 md:h-12" />
-                  </div>
-                </div>
-                <h3 className="text-xl md:text-2xl font-bold text-main mb-1 md:mb-2">{member.name}</h3>
-                <p className="text-accent font-medium mb-3 md:mb-4 text-sm md:text-base">{member.role}</p>
-                <p className="text-muted text-sm md:text-base">{member.desc}</p>
-              </FloatIn>
+              <TeamMemberCard key={i} member={member} i={i} />
             ))}
           </div>
 
