@@ -282,7 +282,7 @@ export default function App() {
           </button>
         </div>
 
-      {/* Slide 1: Cover — English only (not in Russian PDF) */}
+      {/* Slide 1: Cover - English only (not in Russian PDF) */}
       <Slide className="bg-page overflow-hidden">
         <video
           autoPlay
@@ -518,7 +518,7 @@ export default function App() {
         </div>
       </Slide>
 
-      {/* Slide 6 (was Slide 7): Bridge — The opportunity */}
+      {/* Slide 6 (was Slide 7): Bridge - The opportunity */}
       <Slide>
         <div className="max-w-4xl w-full text-center">
           <FadeIn>
@@ -750,7 +750,7 @@ export default function App() {
         </div>
       </Slide>
 
-      {/* Slide 13: What We Have — Foundation */}
+      {/* Slide 13: What We Have - Foundation */}
       <Slide>
         <div className="max-w-5xl w-full">
           <FadeIn>
@@ -862,7 +862,7 @@ export default function App() {
         </div>
       </Slide>
 
-      {/* Slide 16: Close — English only (not in Russian PDF) */}
+      {/* Slide 16: Close - English only (not in Russian PDF) */}
       <Slide className="bg-page">
         <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,rgba(137,84,242,0.8)_0,transparent_50%)]"></div>
 

@@ -32,7 +32,7 @@ export const translations = {
       headingAccent: "no prediction market.",
       russia: {
         name: "Russia",
-        desc: "in crypto received in 2024–25 — #1 in all of Europe",
+        desc: "in crypto received in 2024–25 - #1 in all of Europe",
       },
       turkey: {
         name: "Turkey",
@@ -45,7 +45,7 @@ export const translations = {
         desc1: "Ukraine ranked",
         desc1b: "#1 globally",
         desc2: "in per-capita crypto adoption. Eastern Europe received",
-        desc3: "in crypto in 2024–25 — growing faster than any Western market.",
+        desc3: "in crypto in 2024–25 - growing faster than any Western market.",
       },
       asia: {
         name: "Asia-Pacific",
@@ -60,7 +60,7 @@ export const translations = {
       heading1: "Four regions. One playbook.",
       headingAccent: "Starting now.",
       cis: {
-        title: "CIS —",
+        title: "CIS -",
         titleAccent: "Launch",
         desc: "300M+ Russian speakers. We go live here first.",
       },
@@ -84,9 +84,9 @@ export const translations = {
       headingAccent: "They never showed up.",
       point1Title: "No presence. No language support. No local context.",
       point1Desc: "No understanding of how these users actually think, save, and trade.",
-      point2Title: "We speak their language — literally.",
+      point2Title: "We speak their language - literally.",
       point2Desc: "Markets built in Russian, Turkish, Arabic. Resolution criteria tied to their news, their events, their reality.",
-      footer: "This isn't a gap we're trying to close. It's a market we're building from scratch —",
+      footer: "This isn't a gap we're trying to close. It's a market we're building from scratch -",
       footerAccent: "on our terms.",
     },
 
@@ -94,11 +94,11 @@ export const translations = {
     bridge: {
       heading1: "The opportunity is obvious.",
       headingAccent: "The build is not.",
-      desc: "Prediction markets failed globally for a decade — not because of demand, but because of three hard engineering problems nobody solved for this audience.",
+      desc: "Prediction markets failed globally for a decade - not because of demand, but because of three hard engineering problems nobody solved for this audience.",
       problem1: "Cold start liquidity",
       problem2: "Oracle disputes in adversarial environments",
       problem3: "Onboarding friction",
-      desc2: "We've spent months mapping exactly how each one breaks — and exactly how to solve it.",
+      desc2: "We've spent months mapping exactly how each one breaks - and exactly how to solve it.",
       cta: "Here's the platform we're building.",
     },
 
@@ -144,16 +144,16 @@ export const translations = {
       heading: "Three problems that kill prediction market platforms.",
       rows: [
         {
-          problem: "Cold start — no liquidity, no traders",
+          problem: "Cold start - no liquidity, no traders",
           solution: "Protocol-owned seed liquidity + KOL-anchored positions on launch",
         },
         {
-          problem: "Oracle disputes — who decides what's true?",
+          problem: "Oracle disputes - who decides what's true?",
           solution: "Tiered sources, credentialed proposers, expert arbitration panel",
         },
         {
-          problem: "Onboarding drop-off — wallets kill conversion",
-          solution: "Embedded wallets, session keys, gas abstraction — approve once, trade silently",
+          problem: "Onboarding drop-off - wallets kill conversion",
+          solution: "Embedded wallets, session keys, gas abstraction - approve once, trade silently",
         },
       ],
     },
@@ -166,8 +166,8 @@ export const translations = {
         { layer: "Backend Infra", desc: "PostgreSQL + Redis, WebSocket feeds, chain indexer" },
         { layer: "Wallet & Onboarding", desc: "Embedded wallets, ERC-4337 session keys, USDC on-ramp" },
         { layer: "Oracle System", desc: "Multisig v1 → UMA Optimistic Oracle v2" },
-        { layer: "Matching Engine", desc: "Hybrid CLOB — off-chain order book, on-chain settlement" },
-        { layer: "Smart Contracts", desc: "Trustless settlement — USDC collateral, YES/NO tokens, audited payouts" },
+        { layer: "Matching Engine", desc: "Hybrid CLOB - off-chain order book, on-chain settlement" },
+        { layer: "Smart Contracts", desc: "Trustless settlement - USDC collateral, YES/NO tokens, audited payouts" },
       ],
     },
 
@@ -314,7 +314,7 @@ export const translations = {
       tagline: "Платформа рынков прогнозирования, созданная для самой АВТОРИТЕТНОЙ аудитории в мире.",
     },
 
-    // Slide 2: The Gap — PDF Page 1
+    // Slide 2: The Gap - PDF Page 1
     gap: {
       heading1: "Polymarket создан для Запада.",
       heading2: "Остальной мир ждёт.",
@@ -323,29 +323,29 @@ export const translations = {
       stat3Label: "Polymarket:",
       stat3Value: "штраф CFTC $1.4M, заблокирован в США",
       footer: "Разрыв реален. Момент настал.",
-      footerBrand: "Это — GoMarket.",
+      footerBrand: "Это - GoMarket.",
     },
 
-    // Slide 3: The Proof — PDF Page 2
+    // Slide 3: The Proof - PDF Page 2
     proof: {
       heading: "Регионы с наибольшим крипто-ресурсом",
       headingAccent: "не имеют рынков предсказаний.",
       russia: {
         name: "Россия",
-        desc: "в крипте получено в 2024–25 — #1 в Европе",
+        desc: "в крипте получено в 2024–25 - #1 в Европе",
       },
       turkey: {
         name: "Турция",
         desc: "жителей держит крипту. Инфляция",
-        desc2: "годовая инфляция. USDT — их сберкнижка.",
+        desc2: "годовая инфляция. USDT - их сберкнижка.",
         fraction: "1 из 4",
       },
       easternEurope: {
         name: "Восточная Европа",
-        desc1: "Украина —",
+        desc1: "Украина -",
         desc1b: "#1 в мире",
         desc2: "по крипте на душу населения. Восточная Европа получила",
-        desc3: "в крипте в 2024–25 — быстрее любого западного рынка.",
+        desc3: "в крипте в 2024–25 - быстрее любого западного рынка.",
       },
       asia: {
         name: "Азия / АТР",
@@ -355,18 +355,18 @@ export const translations = {
       footer2: "Ни один из этих регионов им не принадлежит.",
     },
 
-    // Slide 4: The Plan — PDF Page 2
+    // Slide 4: The Plan - PDF Page 2
     plan: {
       heading1: "Четыре региона. Один план.",
       headingAccent: "Начинаем сейчас.",
       cis: {
-        title: "СНГ —",
+        title: "СНГ -",
         titleAccent: "Запуск",
         desc: "300M+ русскоязычных пользователей. Выходим сюда первыми.",
       },
       turkey: {
         title: "Турция",
-        desc: "Каждый 4-й владеет криптой. Инфляция 50%+. USDT — их счёт в банке.",
+        desc: "Каждый 4-й владеет криптой. Инфляция 50%+. USDT - их счёт в банке.",
       },
       asia: {
         title: "Азия / ЮВА",
@@ -374,35 +374,35 @@ export const translations = {
       },
       eastern: {
         title: "Восточная Европа",
-        desc: "Украина — #1 по владению криптой. $206B крипты в регионе в 2024–25. Инфраструктуры предсказаний — ноль.",
+        desc: "Украина - #1 по владению криптой. $206B крипты в регионе в 2024–25. Инфраструктуры предсказаний - ноль.",
       },
     },
 
-    // Slide 5: The Aha — PDF Page 3
+    // Slide 5: The Aha - PDF Page 3
     aha: {
       heading1: "Конкуренты не проиграли этот рынок.",
       headingAccent: "Они сюда просто не пришли.",
       point1Title: "Нет присутствия. Нет языковой поддержки. Нет локального контекста.",
       point1Desc: "Не понимают, как эти пользователи думают, копят, преумножают и торгуют.",
-      point2Title: "Мы говорим на их языке — буквально.",
+      point2Title: "Мы говорим на их языке - буквально.",
       point2Desc: "Рынки на русском, турецком, арабском. Жизненные сценарии привязаны к их новостям, их событиям, их реальности.",
-      footer: "Это не пропасть, которую мы закрываем. Это рынок, который мы строим с нуля —",
+      footer: "Это не пропасть, которую мы закрываем. Это рынок, который мы строим с нуля -",
       footerAccent: "на своих условиях.",
     },
 
-    // Slide 6: Bridge — PDF Page 3
+    // Slide 6: Bridge - PDF Page 3
     bridge: {
       heading1: "Возможность очевидна.",
-      headingAccent: "Реализация — нет.",
-      desc: "Рынки предсказаний терпели неудачу по всему миру десятилетиями — не из-за отсутствия спроса, а из-за трёх трудных инженерных проблем.",
+      headingAccent: "Реализация - нет.",
+      desc: "Рынки предсказаний терпели неудачу по всему миру десятилетиями - не из-за отсутствия спроса, а из-за трёх трудных инженерных проблем.",
       problem1: "Холодный старт ликвидности",
       problem2: "Споры оракула в агрессивной среде",
       problem3: "Трение при онбординге",
-      desc2: "Мы потратили месяцы на анализ того, как каждая из них ломается — и как именно её решить.",
+      desc2: "Мы потратили месяцы на анализ того, как каждая из них ломается - и как именно её решить.",
       cta: "Вот платформа, которую мы строим.",
     },
 
-    // Slide 7: Built around three problems — PDF Page 3
+    // Slide 7: Built around three problems - PDF Page 3
     threeProblems: {
       heading: "Построено вокруг трёх проблем, которые",
       headingAccent: "убивают платформы.",
@@ -423,9 +423,9 @@ export const translations = {
       },
     },
 
-    // Slide 8: Markets — PDF Page 4
+    // Slide 8: Markets - PDF Page 4
     markets: {
-      heading: "Высокая заинтересованность на рынке — стоит торговать.",
+      heading: "Высокая заинтересованность на рынке - стоит торговать.",
       items: [
         "Превысит ли BTC $120K до следующего халвинга?",
         "Будет ли одобрен ETF на Solana в 2025?",
@@ -434,12 +434,12 @@ export const translations = {
         "Достигнет ли температура в Москве -2°C завтра?",
         "Запустит ли Telegram нативный DEX в 2025?",
       ],
-      footer: "Каждый рынок оценивается по 5 параметрам перед листингом. Если не проходит порог — не выходит в эфир.",
+      footer: "Каждый рынок оценивается по 5 параметрам перед листингом. Если не проходит порог - не выходит в эфир.",
       yes: "ДА",
       no: "НЕТ",
     },
 
-    // Slide 9: Hard Problems — PDF Page 3
+    // Slide 9: Hard Problems - PDF Page 3
     hardProblems: {
       heading: "Три проблемы, которые убивают платформы предсказаний.",
       rows: [
@@ -452,26 +452,26 @@ export const translations = {
           solution: "Уровневые источники, аккредитованные пропоузеры, экспертная арбитражная панель",
         },
         {
-          problem: "Трение при онбординге — кошельки убивают конверсию",
-          solution: "Встроенные кошельки, session keys, абстракция газа — один раз подтвердил, торгуешь бесшумно",
+          problem: "Трение при онбординге - кошельки убивают конверсию",
+          solution: "Встроенные кошельки, session keys, абстракция газа - один раз подтвердил, торгуешь бесшумно",
         },
       ],
     },
 
-    // Slide 10: Architecture — PDF Page 4
+    // Slide 10: Architecture - PDF Page 4
     architecture: {
-      heading: "Шесть уровней. Каждый — реальная инженерная задача.",
+      heading: "Шесть уровней. Каждый - реальная инженерная задача.",
       layers: [
         { layer: "Фронтенд", desc: "Next.js, стакан ордеров в реальном времени, mobile-first" },
         { layer: "Бэкенд", desc: "PostgreSQL + Redis, WebSocket-фиды, индексер цепи" },
         { layer: "Кошелёк и онбординг", desc: "Встроенные кошельки, ERC-4337 session keys, USDC on-ramp" },
         { layer: "Система оракулов", desc: "Multisig v1 → UMA Optimistic Oracle v2" },
-        { layer: "Движок матчинга", desc: "Гибридный CLOB — офф-чейн стакан, он-чейн расчёт" },
-        { layer: "Смарт-контракты", desc: "Безопасный расчёт — залог USDC, токены ДА/НЕТ, аудированные выплаты" },
+        { layer: "Движок матчинга", desc: "Гибридный CLOB - офф-чейн стакан, он-чейн расчёт" },
+        { layer: "Смарт-контракты", desc: "Безопасный расчёт - залог USDC, токены ДА/НЕТ, аудированные выплаты" },
       ],
     },
 
-    // Slide 11: Build vs Outsource — PDF Page 5
+    // Slide 11: Build vs Outsource - PDF Page 5
     buildVsBuy: {
       heading: "Мы знаем, что создавать, а за что платить.",
       buildTitle: "Строим сами",
@@ -485,10 +485,10 @@ export const translations = {
         "On-ramp → Moonpay",
       ],
       footer: "Большинство компаний делают это наоборот: переусложняют контракты, недостраивают биржу.",
-      footerAccent: "Мы — нет.",
+      footerAccent: "Мы - нет.",
     },
 
-    // Slide 12: Roadmap Timeline — PDF Page 5
+    // Slide 12: Roadmap Timeline - PDF Page 5
     roadmapTimeline: {
       heading1: "Тестнет за 16 недель.",
       headingAccent: "Мейннет за 6 месяцев.",
@@ -501,7 +501,7 @@ export const translations = {
       ],
     },
 
-    // Slide 13: Foundation — PDF Page 6
+    // Slide 13: Foundation - PDF Page 6
     foundation: {
       heading1: "Фундамент заложен.",
       heading2: "Теперь строим инфраструктуру.",
@@ -524,7 +524,7 @@ export const translations = {
       ],
     },
 
-    // Slide 14: Roadmap phases — PDF Page 6
+    // Slide 14: Roadmap phases - PDF Page 6
     roadmap: {
       heading: "Дорожная карта",
       phases: [
@@ -563,7 +563,7 @@ export const translations = {
       phaseTitles: ["Фундамент", "Запуск", "Рост", "Масштаб"],
     },
 
-    // Slide 15: Team — PDF Page 7
+    // Slide 15: Team - PDF Page 7
     team: {
       heading: "Команда",
       members: [
