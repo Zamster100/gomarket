@@ -308,8 +308,9 @@ export default function App() {
           </FadeIn>
           <FadeIn delay={0.5}>
             <p className="text-lg md:text-3xl text-muted font-light leading-relaxed px-4">
-              The prediction markets platform built for the world's most{' '}
-              <span className="text-accent font-medium">opinionated</span> audience.
+              {T.cover.taglinePre}{' '}
+              <span className="text-accent font-medium">{T.cover.taglineAccent}</span>{' '}
+              {T.cover.taglinePost}
             </p>
           </FadeIn>
         </div>
@@ -878,7 +879,7 @@ export default function App() {
 
           <FadeIn delay={0.2}>
             <p className="text-xl md:text-4xl text-muted font-light leading-relaxed mb-12 md:mb-20 px-4">
-              Building the future prediction market for the world's most opinionated audience.
+              {T.close.tagline}
             </p>
           </FadeIn>
 

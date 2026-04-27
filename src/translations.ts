@@ -2,6 +2,18 @@ export type Lang = 'en' | 'ru';
 
 export const translations = {
   en: {
+    // Slide 1: Cover
+    cover: {
+      taglinePre: "The prediction markets platform built for the world's most",
+      taglineAccent: "opinionated",
+      taglinePost: "audience.",
+    },
+
+    // Slide 16: Close
+    close: {
+      tagline: "Building the future prediction market for the world's most opinionated audience.",
+    },
+
     // Slide 2: The Gap
     gap: {
       heading1: "Polymarket is built for the West.",
@@ -290,6 +302,18 @@ export const translations = {
   },
 
   ru: {
+    // Slide 1: Cover
+    cover: {
+      taglinePre: "Платформа рынков прогнозирования, созданная для самой",
+      taglineAccent: "АВТОРИТЕТНОЙ",
+      taglinePost: "аудитории в мире.",
+    },
+
+    // Slide 16: Close
+    close: {
+      tagline: "Платформа рынков прогнозирования, созданная для самой АВТОРИТЕТНОЙ аудитории в мире.",
+    },
+
     // Slide 2: The Gap — PDF Page 1
     gap: {
       heading1: "Polymarket создан для Запада.",
